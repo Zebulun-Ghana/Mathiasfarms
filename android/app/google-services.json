@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "891148578859",
+    "project_id": "mathiasfarms-af949",
+    "storage_bucket": "mathiasfarms-af949.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891148578859:android:9e511936dfc1e1bf107a6e",
+        "android_client_info": {
+          "package_name": "com.mathiasfarms.agroma"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq5I9rAOwfBJOPLkKwU8iuMWyTeBpqph0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
