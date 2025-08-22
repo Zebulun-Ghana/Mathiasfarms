@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:agromat_project/auth/auth_service.dart';
 import 'package:agromat_project/models/app_user.dart';
+import 'package:agromat_project/screens/admin/admin_home_screen.dart';
+import 'package:agromat_project/screens/help_support_screen.dart';
+import 'package:agromat_project/screens/admin/admin_settings_screen.dart';
 
 class AdminProfileScreen extends StatefulWidget {
   const AdminProfileScreen({super.key});
@@ -204,9 +207,6 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
 
                       const SizedBox(height: 24),
 
-                     
-                      
-
                       const SizedBox(height: 24),
 
                       // Quick Actions
@@ -240,25 +240,73 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                               title: 'Manage products',
                               subtitle: 'Manage product listing',
                               onTap: () {
-                                // TODO: Navigate to add product
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ProductManagementScreen(),
+                                  ),
+                                );
                               },
                             ),
                             const Divider(),
                             _buildActionTile(
-                              icon: Icons.settings,
-                              title: 'App Settings',
-                              subtitle: 'Configure app preferences',
+                              icon: Icons.shopping_bag,
+                              title: 'Manage Orders',
+                              subtitle: 'View and process customer orders',
                               onTap: () {
-                                // TODO: Navigate to settings
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const OrderManagementScreen(),
+                                  ),
+                                );
                               },
                             ),
+                            const Divider(),
+                            _buildActionTile(
+                              icon: Icons.category,
+                              title: 'Manage Categories',
+                              subtitle: 'Organize product categories',
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CategoriesManagementScreen(),
+                                  ),
+                                );
+                              },
+                            ),
+                            // const Divider(),
+                            // _buildActionTile(
+                            //   icon: Icons.settings,
+                            //   title: 'App Settings',
+                            //   subtitle: 'Configure app preferences',
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const AdminSettingsScreen(),
+                            //       ),
+                            //     );
+                            //   },
+                            // ),
                             const Divider(),
                             _buildActionTile(
                               icon: Icons.help_outline,
                               title: 'Help & Support',
                               subtitle: 'Get help and contact support',
                               onTap: () {
-                                // TODO: Navigate to help
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const HelpSupportScreen(),
+                                  ),
+                                );
                               },
                             ),
                           ],

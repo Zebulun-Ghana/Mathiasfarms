@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:agromat_project/auth/auth_service.dart';
 import 'package:agromat_project/models/app_user.dart';
@@ -7,6 +8,8 @@ import 'package:agromat_project/screens/home_screen.dart';
 import 'package:agromat_project/screens/admin/admin_home_screen.dart';
 import 'package:agromat_project/auth/login_screen.dart';
 import 'package:agromat_project/providers/cart_provider.dart';
+import 'package:agromat_project/services/onboarding_service.dart';
+import 'package:agromat_project/screens/onboarding_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,10 +65,10 @@ class AuthWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: AuthService().userChanges,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return FutureBuilder<bool>(
+      future: OnboardingService.isOnboardingCompleted(),
+      builder: (context, onboardingSnapshot) {
+        if (onboardingSnapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(
@@ -75,33 +78,55 @@ class AuthWrapper extends StatelessWidget {
           );
         }
 
-        if (snapshot.hasData) {
-          // User is logged in, check their role
-          return FutureBuilder<AppUser?>(
-            future: AuthService().getUserProfile(snapshot.data!.uid),
-            builder: (context, userSnapshot) {
-              if (userSnapshot.connectionState == ConnectionState.waiting) {
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xFF145A32),
-                    ),
-                  ),
-                );
-              }
-
-              final user = userSnapshot.data;
-              if (user?.role == 'admin') {
-                return const AdminHomeScreen();
-              } else {
-                return const HomeScreen();
-              }
-            },
-          );
+        // Check if onboarding is completed
+        if (onboardingSnapshot.data == null || !onboardingSnapshot.data!) {
+          return const OnboardingScreen();
         }
 
-        // User is not logged in
-        return const LoginScreen();
+        // Onboarding completed, proceed with auth check
+        return StreamBuilder(
+          stream: AuthService().userChanges,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(
+                    color: Color(0xFF145A32),
+                  ),
+                ),
+              );
+            }
+
+            // Check if user is logged in
+            if (snapshot.hasData && snapshot.data != null) {
+              // User is logged in, check their role
+              return FutureBuilder<AppUser?>(
+                future: AuthService().getUserProfile(snapshot.data!.uid),
+                builder: (context, userSnapshot) {
+                  if (userSnapshot.connectionState == ConnectionState.waiting) {
+                    return const Scaffold(
+                      body: Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFF145A32),
+                        ),
+                      ),
+                    );
+                  }
+
+                  final user = userSnapshot.data;
+                  if (user?.role == 'admin') {
+                    return const AdminHomeScreen();
+                  } else {
+                    return const HomeScreen();
+                  }
+                },
+              );
+            }
+
+            // User is not logged in
+            return const LoginScreen();
+          },
+        );
       },
     );
   }

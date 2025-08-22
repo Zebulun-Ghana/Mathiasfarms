@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         // Title
                         Text(
-                          'Welcome Back',
+                          'Welcome ',
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
@@ -338,6 +338,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
+                        const SizedBox(height: 16),
                       ],
                     ),
                   ),

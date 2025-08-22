@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:agromat_project/auth/auth_service.dart';
 import 'package:agromat_project/models/app_user.dart';
+import 'package:agromat_project/screens/help_support_screen.dart';
 
 class CustomerProfileScreen extends StatefulWidget {
   const CustomerProfileScreen({super.key});
@@ -309,7 +310,12 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                               title: 'Help & Support',
                               subtitle: 'Get help and contact support',
                               onTap: () {
-                                // TODO: Navigate to help
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const HelpSupportScreen(),
+                                  ),
+                                );
                               },
                             ),
                           ],
